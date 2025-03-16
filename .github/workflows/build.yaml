@@ -29,9 +29,6 @@ jobs:
       - name: Build application
         run: ./gradlew build
 
-      - name: Run unit tests
-        run: ./gradlew build
-
       - name: Set up QEMU for multi-architecture support
         uses: docker/setup-qemu-action@v2
 
@@ -52,7 +49,7 @@ jobs:
         run: ./gradlew buildDockerImageLocally -P imageVersion=$IMAGE_TAG
 
       - name: Run integration tests with Testcontainers
-        run: ./gradlew integrationTest -PdockerImage=localhost:5000/customers-and-orders-spring-authorization-server:$IMAGE_TAG
+        run: ./gradlew integrationTest -P dockerImage=localhost:5000/customers-and-orders-spring-authorization-server:$IMAGE_TAG
 
       - name: Log in to Docker Hub
         uses: docker/login-action@v2
