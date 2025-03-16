@@ -54,3 +54,15 @@ tasks.register('integrationTest', Test) {
 	systemProperty 'dockerImage', project.findProperty('dockerImage') ?: ''
 
 }
+
+tasks.register('testAll') {
+    description = 'Runs test, buildDockerImageLocally, and integrationTest tasks in order'
+    group = 'verification'
+	dependsOn test
+	dependsOn buildDockerImageLocally
+	dependsOn integrationTest
+}
+
+
+buildDockerImageLocally.mustRunAfter test
+integrationTest.mustRunAfter buildDockerImageLocally
