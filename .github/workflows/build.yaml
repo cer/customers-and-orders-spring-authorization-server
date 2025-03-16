@@ -61,4 +61,4 @@ jobs:
         run: |
           docker buildx imagetools create \
             --tag eventuateio/customers-and-orders-spring-authorization-server:$IMAGE_TAG \
-            localhost:5002/myapp:$IMAGE_TAG
+            localhost:5002/customers-and-orders-spring-authorization-server:$IMAGE_TAG
