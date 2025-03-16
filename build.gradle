@@ -1,0 +1,36 @@
+plugins {
+	id 'java'
+	id 'org.springframework.boot' version '3.4.3'
+	id 'io.spring.dependency-management' version '1.1.7'
+}
+
+apply plugin: DockerBuildLocallyPlugin
+
+group = 'io.eventuate.tram.examples.customersandorders.springauthorizationserver'
+
+java {
+	toolchain {
+		languageVersion = JavaLanguageVersion.of(17)
+	}
+}
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter-oauth2-authorization-server'
+	implementation 'org.apache.commons:commons-compress:1.23.0'
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+	runtimeOnly "io.eventuate.examples.dockerimages:eventuate-examples-docker-images:$eventuateDockerImagesVersion"
+
+	testRuntimeOnly "io.eventuate.examples.dockerimages:eventuate-examples-docker-images:$eventuateDockerImagesVersion"
+	testImplementation platform('org.testcontainers:testcontainers-bom:1.19.6')
+	testImplementation 'org.testcontainers:junit-jupiter'
+	testImplementation 'io.rest-assured:rest-assured:5.3.0'
+}
+
+tasks.named('test') {
+	useJUnitPlatform()
+}
