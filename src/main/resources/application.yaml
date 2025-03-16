@@ -7,6 +7,10 @@ logging:
   level:
     org.springframework.security: trace
 
+management.endpoints.web.exposure.include: health
+management.endpoint.health.show-details: always
+management.endpoint.health.access: unrestricted
+
 spring:
   security:
     user:

@@ -25,6 +25,7 @@ configurations {
 
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-oauth2-authorization-server'
+	implementation 'org.springframework.boot:spring-boot-starter-actuator'
 	implementation 'org.apache.commons:commons-compress:1.23.0'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'

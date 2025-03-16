@@ -1,5 +1,6 @@
 package io.eventuate.tram.examples.customersandorders.springauthorizationserver.customers_and_orders_spring_authorization_server;
 
+import io.restassured.RestAssured;
 import org.junit.jupiter.api.Test;
 import org.testcontainers.containers.GenericContainer;
 import org.testcontainers.containers.wait.strategy.Wait;
@@ -39,15 +40,15 @@ public class DockerImageTest {
         }
 
         return container
-            .withExposedPorts(9000)
+            .withExposedPorts(8080)
             .waitingFor(Wait.forListeningPort().withStartupTimeout(Duration.ofSeconds(30)));
     }
 
     @Test
-    public void testContainerStartsAndListensOnPort9000() {
+    public void testContainerStartsAndListensOnPort8080() {
         assertTrue(container.isRunning(), "Container should be running");
 
-        Integer mappedPort = container.getMappedPort(9000);
+        Integer mappedPort = container.getMappedPort(8080);
         String host = container.getHost();
 
         given()
@@ -56,6 +57,18 @@ public class DockerImageTest {
         .when()
             .get("/.well-known/openid-configuration")
         .then()
+            .statusCode(200);
+    }
+
+    @Test
+    void healthEndpointShouldReturn200() {
+        RestAssured
+            .given()
+                .redirects().follow(false)
+            .when()
+            .port(container.getMappedPort(8080))
+            .get("/actuator/health")
+            .then()
             .statusCode(200);
     }
 }
