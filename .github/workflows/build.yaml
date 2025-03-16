@@ -49,7 +49,7 @@ jobs:
         run: ./gradlew buildDockerImageLocally -P imageVersion=$IMAGE_TAG
 
       - name: Run integration tests with Testcontainers
-        run: ./gradlew integrationTest -P dockerImage=localhost:5000/customers-and-orders-spring-authorization-server:$IMAGE_TAG
+        run: ./gradlew integrationTest -P dockerImage=localhost:5002/customers-and-orders-spring-authorization-server:$IMAGE_TAG
 
       - name: Log in to Docker Hub
         uses: docker/login-action@v2
@@ -61,4 +61,4 @@ jobs:
         run: |
           docker buildx imagetools create \
             --tag eventuateio/customers-and-orders-spring-authorization-server:$IMAGE_TAG \
-            localhost:5000/myapp:$IMAGE_TAG
+            localhost:5002/myapp:$IMAGE_TAG
