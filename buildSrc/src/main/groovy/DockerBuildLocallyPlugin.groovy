@@ -14,7 +14,7 @@ class DockerBuildLocallyPlugin implements Plugin<Project> {
                     "--builder", EnsureBuilderPlugin.BUILDER_NAME,
                     "--build-arg", "baseImageVersion=${project.ext.eventuateDockerImagesVersion}",
                     "--build-arg", "serviceImageVersion=${project.version}",
-                    "--platform", "linux/amd64,linux/arm64", "-t", "localhost:5002/${project.name.replace"-main", ""}:${project.version}",
+                    "--platform", "linux/amd64,linux/arm64", "-t", "localhost:5002/${project.name.replace"-main", ""}:${project.ext.imageVersion}",
                     "--allow", "security.insecure",
                     "--output=type=image,push=true,registry.insecure=true",
                 "."]
