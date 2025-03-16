@@ -16,15 +16,32 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 @Testcontainers
 public class DockerImageTest {
 
+    private static String getDockerImage() {
+        return System.getProperty("dockerImage", "");
+    }
+
     @Container
-    public GenericContainer<?> container = new GenericContainer<>(
-            new ImageFromDockerfile()
+    public GenericContainer<?> container = createContainer();
+
+    private GenericContainer<?> createContainer() {
+        String dockerImage = getDockerImage();
+        GenericContainer<?> container;
+
+        if (dockerImage != null && !dockerImage.trim().isEmpty()) {
+            container = new GenericContainer<>(dockerImage);
+        } else {
+            container = new GenericContainer<>(
+                new ImageFromDockerfile()
                     .withDockerfile(FileSystems.getDefault().getPath("./Dockerfile"))
                     .withBuildArg("baseImageVersion", "0.1.0.BUILD-SNAPSHOT")
                     .withBuildArg("serviceImageVersion", "0.1.0-SNAPSHOT")
-            )
+            );
+        }
+
+        return container
             .withExposedPorts(9000)
             .waitingFor(Wait.forListeningPort().withStartupTimeout(Duration.ofSeconds(30)));
+    }
 
     @Test
     public void testContainerStartsAndListensOnPort9000() {
