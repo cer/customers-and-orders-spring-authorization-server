@@ -1,0 +1,5 @@
+= Customers and Orders Spring Authorization Server
+
+This project defines a service - published as a Docker container - that runs the https://spring.io/projects/spring-authorization-server[Spring Authorization Server].
+
+It implements OAuth 2.0 Authorization Code flow with PKCE for the https://github.com/cer/customers-and-orders-bff[`customers-and-orders-bff` project].
