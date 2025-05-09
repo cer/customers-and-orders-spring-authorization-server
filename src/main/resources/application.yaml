@@ -16,10 +16,14 @@ spring:
     user:
       name: user1
       password: password
+      roles: USER,ADMIN
     oauth2:
       authorizationserver:
         client:
           messaging-client:
+            token:
+              access-token-time-to-live: 20s  # 5 minutes
+              refresh-token-time-to-live: 60m  # 60 minutes
             registration:
               client-id: "messaging-client"
               client-secret: "{noop}secret"

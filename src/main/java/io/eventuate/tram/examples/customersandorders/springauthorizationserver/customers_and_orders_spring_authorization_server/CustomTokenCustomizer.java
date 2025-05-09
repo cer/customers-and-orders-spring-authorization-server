@@ -1,11 +1,15 @@
 package io.eventuate.tram.examples.customersandorders.springauthorizationserver.customers_and_orders_spring_authorization_server;
 
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.oauth2.jwt.JwtClaimsSet;
 import org.springframework.security.oauth2.server.authorization.token.JwtEncodingContext;
 import org.springframework.security.oauth2.server.authorization.token.OAuth2TokenCustomizer;
 import org.springframework.stereotype.Component;
+
+import java.util.HashSet;
+import java.util.Set;
 
 @Component
 public class CustomTokenCustomizer implements OAuth2TokenCustomizer<JwtEncodingContext> {
@@ -19,6 +23,12 @@ public class CustomTokenCustomizer implements OAuth2TokenCustomizer<JwtEncodingC
         if (principal.getPrincipal() instanceof UserDetails) {
             UserDetails userDetails = (UserDetails) principal.getPrincipal();
             claims.claim("name", userDetails.getUsername());
+            Set<String> authorities = new HashSet<>();
+            for (GrantedAuthority authority : principal.getAuthorities()) {
+                authorities.add(authority.getAuthority());
+            }
+            claims.claim("authorities", authorities);
+
             /// claims.claim("email", userDetails.getEmail());
         }
     }
